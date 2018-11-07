@@ -41,7 +41,9 @@ public class Main {
 
 	  //Tasks:
 	  // 1. Define a route for handling a HTTP POST request
-
+		post("/filter", (request, response) -> {
+				return "Filter request body: " + request.body();
+			});
 	  // 2. Get the image from the request, possibly storing it somewhere before proceeding.
 
 	  // 3. Process the image using the JHLabs filtering library (you have to add the dependency)
