@@ -16,6 +16,7 @@ mainClassName = "Main"
 dependencies {
   runtime "org.slf4j:slf4j-simple:1.7.12"
   compile "com.sparkjava:spark-core:2.5"
+  compile group: 'com.jhlabs', name: 'filters', version: '2.0.235'
 
   //TODO add image filtering library here
 }
