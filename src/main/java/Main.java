@@ -31,7 +31,7 @@ public class Main {
 	// this route uses raw byte output for response
 	post("/raw", (request, response) -> {
 	  OutputStream out = response.raw().getOutputStream();
-	  out.write("Writing to raw!".getBytes());
+	  out.write(request.body().getBytes());
 	  out.close();
 	  return response.raw();
 	});
@@ -40,15 +40,21 @@ public class Main {
 	  //For help with the Spark framework this project is using, see http://sparkjava.com/documentation.html
 
 	  //Tasks:
-	  // 1. Define a route for handling a HTTP POST request
-		post("/filter", (request, response) -> {
-				return "Filter request body: " + request.body();
-			});
-	  // 2. Get the image from the request, possibly storing it somewhere before proceeding.
-
+		// 1. Define a route for handling a HTTP POST request
+		// 2. Get the image from the request, possibly storing it somewhere before proceeding.
 	  // 3. Process the image using the JHLabs filtering library (you have to add the dependency)
+		// 4. Write the processed image to the HTTP response ( Tip: response.raw() can be helpful)
+		
+		post("/filter", (request, response) -> {
+				try (InputStream is = request.raw().getPart("image").getInputStream()) {
+					OutputStream out = response.raw().getOutputStream();
+					out.write("Writing to raw!".getBytes());
+					out.close();
+					return response.raw();
+				}
+				return "ERROR: Filter request body: " + request.body();
+			});
 
-	  // 4. Write the processed image to the HTTP response ( Tip: response.raw() can be helpful)
 
   }
 }
