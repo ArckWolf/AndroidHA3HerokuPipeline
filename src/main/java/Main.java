@@ -81,7 +81,7 @@ public class Main {
 			BoxBlurFilter boxBlurFilter = new BoxBlurFilter();
 			boxBlurFilter.setRadius(10);
 			boxBlurFilter.setIterations(10);
-			boxBlurFilter.filter(img,imageOut);
+			imageOut = boxBlurFilter.filter(img,imageOut);
 
 			OutputStream out = response.raw().getOutputStream();
 
