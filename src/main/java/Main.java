@@ -1,6 +1,9 @@
 import javax.servlet.MultipartConfigElement;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 import static spark.Spark.*;
@@ -51,6 +54,8 @@ public class Main {
 			request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
 			try (InputStream is = request.raw().getPart("uploaded_file").getInputStream()) {
 					// Use the input stream to create a file
+				final Path path = Paths.get("/tmp/meh");
+				Files.copy(is, path);
 			}
 			return "File uploaded";
 		});
