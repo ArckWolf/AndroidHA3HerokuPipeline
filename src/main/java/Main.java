@@ -76,25 +76,20 @@ public class Main {
 			int width = img.getWidth();
 			int height = img.getHeight();
 
-			BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+			BufferedImage imageOut = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
 
 			BoxBlurFilter boxBlurFilter = new BoxBlurFilter();
 			boxBlurFilter.setRadius(10);
 			boxBlurFilter.setIterations(10);
-			boxBlurFilter.filter(img,image);
+			boxBlurFilter.filter(img,imageOut);
 
 			OutputStream out = response.raw().getOutputStream();
 
-			ImageIO.write(img, "jpg", out);
+			ImageIO.write(imageOut, "jpg", out);
 
-			//out.write(img);
 			out.close();
 			return response.raw();
-
-			//return "test H" + img.getHeight();
-			//return "File seen";
 		}
-		//return "File uploaded";
 	});
 
 
