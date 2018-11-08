@@ -44,17 +44,14 @@ public class Main {
 		// 2. Get the image from the request, possibly storing it somewhere before proceeding.
 	  // 3. Process the image using the JHLabs filtering library (you have to add the dependency)
 		// 4. Write the processed image to the HTTP response ( Tip: response.raw() can be helpful)
-/*		
+	
 		post("/filter", (request, response) -> {
-				try (InputStream is = request.raw().getPart("image").getInputStream()) {
-					OutputStream out = response.raw().getOutputStream();
-					out.write("Writing to raw!".getBytes());
-					out.close();
-					return response.raw();
-				}
-				return "ERROR: Filter request body: " + request.body();
-			});
-*/
+			request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+			try (InputStream is = request.raw().getPart("uploaded_file").getInputStream()) {
+					// Use the input stream to create a file
+			}
+			return "File uploaded";
+		});
 
   }
 }
