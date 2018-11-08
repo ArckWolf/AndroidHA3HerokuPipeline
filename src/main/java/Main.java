@@ -2,11 +2,13 @@ import com.jhlabs.image.BoxBlurFilter;
 
 import javax.servlet.MultipartConfigElement;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 
 import static spark.Spark.*;
@@ -17,6 +19,11 @@ import static spark.Spark.*;
  */
 public class Main {
   public static void main(String... args) throws Exception {
+
+	  File uploadDir = new File("upload");
+	  uploadDir.mkdir(); // create the upload directory if it doesn't exist
+
+	  staticFiles.externalLocation("upload");
 
 	// Tell Spark to use the Environment variable "PORT" set by Heroku. If no PORT variable is set, default to port 5000.
 	int port = System.getenv("PORT")== null ? 5000 : Integer.valueOf(System.getenv("PORT"));
@@ -57,13 +64,13 @@ public class Main {
 		request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
 		try (InputStream is = request.raw().getPart("uploaded_file").getInputStream()) {
 			// Use the input stream to create a file
-			final Path path = Paths.get("/tmp/meh");
+			Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
 			//Files.copy(is, path);
-
+			Files.copy(is, tempFile, StandardCopyOption.REPLACE_EXISTING);
 
 			//processImage();
-
-			return "File seen" ;
+			return "<h1>You uploaded this image:<h1><img src='" + tempFile.getFileName() + "'>";
+			//return "File seen";
 		}
 		//return "File uploaded";
 	});
