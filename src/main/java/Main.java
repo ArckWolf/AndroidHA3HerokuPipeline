@@ -1,5 +1,6 @@
 import com.jhlabs.image.BoxBlurFilter;
 
+import javax.imageio.ImageIO;
 import javax.servlet.MultipartConfigElement;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -64,12 +65,25 @@ public class Main {
 		request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
 		try (InputStream is = request.raw().getPart("uploaded_file").getInputStream()) {
 			// Use the input stream to create a file
-			Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
-			//Files.copy(is, path);
-			Files.copy(is, tempFile, StandardCopyOption.REPLACE_EXISTING);
+			//Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
 
-			//processImage();
-			return "<h1>You uploaded this image:<h1><img src='" + tempFile.toAbsolutePath() + "'>";
+			//Files.copy(is, path);
+			//Files.copy(is, tempFile, StandardCopyOption.REPLACE_EXISTING);
+
+			BufferedImage img = ImageIO.read(is);
+
+			int width = img.getWidth();
+			int height = img.getHeight();
+
+			BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+
+			BoxBlurFilter boxBlurFilter = new BoxBlurFilter();
+			boxBlurFilter.setRadius(10);
+			boxBlurFilter.setIterations(10);
+			boxBlurFilter.filter(img,image);
+
+
+			return "test H" + img.getHeight();
 			//return "File seen";
 		}
 		//return "File uploaded";
@@ -78,17 +92,4 @@ public class Main {
 
 
   }
-	private BufferedImage processImage(BufferedImage bmp) {
-		int width = bmp.getWidth();
-		int height = bmp.getHeight();
-
-		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
-
-		BoxBlurFilter boxBlurFilter = new BoxBlurFilter();
-		boxBlurFilter.setRadius(10);
-		boxBlurFilter.setIterations(10);
-		boxBlurFilter.filter(bmp,image);
-
-		return image;
-	}
 }
