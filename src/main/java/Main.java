@@ -53,11 +53,13 @@ public class Main {
 		post("/filter", (request, response) -> {
 			request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
 			try (InputStream is = request.raw().getPart("uploaded_file").getInputStream()) {
-					// Use the input stream to create a file
+				// Use the input stream to create a file
 				final Path path = Paths.get("/tmp/meh");
 				Files.copy(is, path);
+
+				return "" + path;
 			}
-			return "File uploaded";
+			//return "File uploaded";
 		});
 
   }
