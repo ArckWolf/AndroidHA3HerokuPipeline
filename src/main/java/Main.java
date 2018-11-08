@@ -54,23 +54,9 @@ public class Main {
 	});
 
 
-	  //For help with the Spark framework this project is using, see http://sparkjava.com/documentation.html
-
-	  //Tasks:
-		// 1. Define a route for handling a HTTP POST request
-		// 2. Get the image from the request, possibly storing it somewhere before proceeding.
-	  // 3. Process the image using the JHLabs filtering library (you have to add the dependency)
-		// 4. Write the processed image to the HTTP response ( Tip: response.raw() can be helpful)
-	
-	post("/filter", (request, response) -> {
+	post("/blur_filter", (request, response) -> {
 		request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
 		try (InputStream is = request.raw().getPart("uploaded_file").getInputStream()) {
-			// Use the input stream to create a file
-			//Path tempFile = Files.createTempFile(uploadDir.toPath(), "", "");
-
-			//Files.copy(is, path);
-			//Files.copy(is, tempFile, StandardCopyOption.REPLACE_EXISTING);
-
 			BufferedImage img = ImageIO.read(is);
 
 			int width = img.getWidth();
@@ -91,8 +77,5 @@ public class Main {
 			return response.raw();
 		}
 	});
-
-
-
   }
 }
