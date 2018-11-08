@@ -2,6 +2,7 @@ import com.jhlabs.image.BoxBlurFilter;
 
 import javax.imageio.ImageIO;
 import javax.servlet.MultipartConfigElement;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
@@ -82,8 +83,15 @@ public class Main {
 			boxBlurFilter.setIterations(10);
 			boxBlurFilter.filter(img,image);
 
+			OutputStream out = response.raw().getOutputStream();
 
-			return "test H" + img.getHeight();
+			ImageIO.write(img, "jpg", out);
+
+			//out.write(img);
+			out.close();
+			return response.raw();
+
+			//return "test H" + img.getHeight();
 			//return "File seen";
 		}
 		//return "File uploaded";
