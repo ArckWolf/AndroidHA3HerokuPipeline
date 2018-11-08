@@ -69,7 +69,7 @@ public class Main {
 			Files.copy(is, tempFile, StandardCopyOption.REPLACE_EXISTING);
 
 			//processImage();
-			return "<h1>You uploaded this image:<h1><img src='" + tempFile.getFileName() + "'>";
+			return "<h1>You uploaded this image:<h1><img src='" + tempFile.toAbsolutePath() + "'>";
 			//return "File seen";
 		}
 		//return "File uploaded";
