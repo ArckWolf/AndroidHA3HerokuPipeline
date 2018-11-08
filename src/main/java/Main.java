@@ -76,7 +76,7 @@ public class Main {
 			int width = img.getWidth();
 			int height = img.getHeight();
 
-			BufferedImage imageOut = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+			BufferedImage imageOut = new BufferedImage(width, height, img.getType());
 
 			BoxBlurFilter boxBlurFilter = new BoxBlurFilter();
 			boxBlurFilter.setRadius(10);
